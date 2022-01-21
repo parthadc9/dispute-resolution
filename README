@@ -1,0 +1,23 @@
+./network.sh up
+
+./network.sh createChannel -c drchannel -verbose
+
+./network.sh deployCC -c drchannel -ccn payee -ccl go -ccv 0.1 -ccs 1 -ccp /home/ubuntu/chaincodes/payee
+
+
+./network.sh deployCC -c drchannel -ccn complaint -ccl go -ccv 0.1 -ccs 1 -ccp /home/ubuntu/chaincodes/complaint
+
+
+./network.sh deployCC -c drchannel -ccn payment -ccl go -ccv 0.1 -ccs 1 -ccp /home/ubuntu/chaincodes/payment
+
+./scripts/invoke-fcn.sh drchannel payee NewPayee '["123", "423", "AB"]' 1 2 3 4 5 6 7
+
+./scripts/invoke-fcn.sh drchannel payee NewPayee '["567", "789", "CD"]' 1 2 3 4 5 6 7
+
+./scripts/invoke-fcn.sh drchannel payment GeneratePaymentRequest '["ACCOUNT-123-423","ACCOUNT-567-789","500","NEFT"]' 1 2 3 4
+
+./scripts/invoke-fcn.sh drchannel payment MakePayment '["PR-dd7c3757572d8694d144edd97649dbbb5d0f01e076dca579fa72aa6a62a80370", "123456789"]' 1 2 3 4 5 6 7
+
+./scripts/invoke-fcn.sh drchannel complaint GenerateComplaint '["PR-dd7c3757572d8694d144edd97649dbbb5d0f01e076dca579fa72aa6a62a80370", "e"]' 1 2 3 4 5 6 7
+
+./scripts/invoke-fcn.sh drchannel complaint ResolveComplaint '["CMP-PR-dd7c3757572d8694d144edd97649dbbb5d0f01e076dca579fa72aa6a62a80370", "d"]' 1 2 3 4 5 6 7
